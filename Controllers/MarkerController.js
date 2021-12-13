@@ -1,5 +1,3 @@
-const api = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson"
-
 const markerList = {
     markers: [],
     viewer: null,
@@ -10,8 +8,9 @@ const markerList = {
         this.request();
     },
 
-    request: async function () {
-        const response = await fetch(api);
+    request: async function (time = "hour") {
+        this.viewer.entities.removeAll();
+        const response = await fetch("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_"+time+".geojson");
         const result = await response.json();
         this.markers = result.features;
         this.markers.forEach(marker => {
